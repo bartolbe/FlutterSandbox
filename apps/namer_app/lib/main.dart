@@ -1,6 +1,7 @@
 import 'package:namer_app/champscard.dart';
 import 'package:namer_app/gameselection.dart';
 import 'package:namer_app/gameboard.dart';
+import 'package:namer_app/participant.dart';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

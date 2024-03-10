@@ -1,5 +1,5 @@
 import 'package:namer_app/main.dart';
-import 'package:namer_app/champscard.dart';
+import 'package:namer_app/participant.dart';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
