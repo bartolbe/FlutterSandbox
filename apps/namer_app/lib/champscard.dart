@@ -55,7 +55,7 @@ class CardInstance {
 
   CardInstance.fromCardInfo(this.info) {
     for (var counterTypeIndex = 0; counterTypeIndex < CounterType.values.length; counterTypeIndex++) {
-      counters[counterTypeIndex].active = info.defaultIsCounterTypeActive(CounterType.values[counterTypeIndex]);
+      counters[counterTypeIndex].count = info.defaultIsCounterTypeActive(CounterType.values[counterTypeIndex]) ? 1 : 0;
     }
   }
 }

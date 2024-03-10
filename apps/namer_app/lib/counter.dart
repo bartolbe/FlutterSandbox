@@ -12,7 +12,6 @@ enum CounterType
 
 class CounterInstance {
   final CounterType type;
-  bool active = false;
   int count = 0;
 
   CounterInstance({
@@ -51,11 +50,6 @@ class CounterWidget extends StatelessWidget {
   void increment() {
     counter.count++;
   }
-
-  void activate() {
-    counter.active = true;
-  }
-
   @override
   Widget build(BuildContext context) {
     var appState = context.watch<MyAppState>();
@@ -65,51 +59,36 @@ class CounterWidget extends StatelessWidget {
       color: theme.colorScheme.onSecondary,
     );
 
-    if (counter.active) {
-      // TODO: Some duplication in these cards.
-      return Card(
-        color: counter.getColor(),
-        child: Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: Row(
-            children: [
-              ElevatedButton(onPressed: () {
-                  decrement();
-                  appState.updateState();
-                },
-                child: Icon(Icons.arrow_downward)),
-              SizedBox(width: 10),
-              Text(
-                counter.active ? counter.count.toString() : 'X',
-                style: style,
-              ),
-              SizedBox(width: 10),
-              ElevatedButton(onPressed: () {
-                  increment();
-                  appState.updateState();
-                },
-                child: Icon(Icons.arrow_upward)),
-            ],
-          ),
-        ),
-      );
-    }
-    else {
-      return Card(
-        color: counter.getColor(),
-        child: Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: Row(
-            children: [
-              ElevatedButton(onPressed: () {
-                activate();
+    return Card(
+      color: counter.getColor(),
+      child: Padding(
+        padding: const EdgeInsets.all(20.0),
+        child: Row(
+          children: [
+            if (counter.count > 0)
+            Row(
+              children: [
+                ElevatedButton(onPressed: () {
+                    decrement();
+                    appState.updateState();
+                  },
+                  child: Icon(Icons.arrow_downward)),
+                SizedBox(width: 10),
+                Text(
+                  counter.count.toString(),
+                  style: style,
+                ),
+                SizedBox(width: 10),
+              ]
+            ),
+            ElevatedButton(onPressed: () {
+                increment();
                 appState.updateState();
               },
-              child: Text("+"))
-            ],
-          ),
+              child: Icon(Icons.arrow_upward)),
+          ],
         ),
-      );
-    }
+      ),
+    );
   }
 }
