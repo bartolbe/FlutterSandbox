@@ -11,31 +11,52 @@ enum ParticipantType
 }
 
 /*
+  Helper function for getting the card type of the identity corresponding to this participatn.
+*/
+ChampsCardType getIdentityCardType(ParticipantType participantType) {
+  switch(participantType) {
+    case ParticipantType.hero:
+      return ChampsCardType.hero;
+    case ParticipantType.villain:
+      return ChampsCardType.villain;
+    default:
+      throw UnimplementedError('$participantType is not a valid ParticipantType');
+  }
+}
+
+/*
+  Helper function for getting the card color corresponding to a participant type.
+*/
+Color getCardColor(ParticipantType participantType) {
+  switch(participantType) {
+    case ParticipantType.hero:
+      return Colors.blue;
+    case ParticipantType.villain:
+      return Colors.orange;
+    default:
+      throw UnimplementedError('$participantType is not a valid ParticipantType');
+  }
+}
+
+/*
   A class to represent either a player or the villain.
 */
 class ParticipantInstance {
   final ParticipantType type;
   final String name;
 
-  CardInstance identity;
-  List<CardInfo> availableCards;
-  List<CardInstance> activeCards = [];
+  ChampsCardInstance identity; // The card representing the hero or villain themselves.
+  List<ChampsCardInfo> availableCards; // The set of available cards that the participant could add to play.
+  List<ChampsCardInstance> activeCards = []; // The active cards that the participant has added to play.
 
   ParticipantInstance({ required this.type, required this.name, required this.availableCards  }) 
-    : identity = CardInstance.fromCardInfo(CardInfo(type: type == ParticipantType.hero ? CardType.hero : CardType.villain, name: name));
-
-  /*
-    Add a card to the available card pool. Called during setup.
-  */
-  void addAvailableCard(CardInfo info) {
-    availableCards.add(info);
-  }
+    : identity = ChampsCardInstance.fromCardInfo(ChampsCardInfo(type:getIdentityCardType(type), name: name));
 
   /*
     Add an active card to play. Called during gameplay.
   */
-  void addActiveCard(int activeCardIndex) {
-    activeCards.add(CardInstance.fromCardInfo(availableCards[activeCardIndex]));
+  void addActiveCard(ChampsCardInfo cardInfo) {
+    activeCards.add(ChampsCardInstance.fromCardInfo(cardInfo));
   }
 }
 
@@ -52,16 +73,21 @@ class ParticipantWidget extends StatelessWidget {
 
     return Column(
       children: [
-        CardWidget(card:
+        // Add the card widget for the identity.
+        ChampsCardWidget(card:
           participant.identity,
+          // The identity includes the ability to add cards from it's set of available cards.
           commandWidget: AddCardWidget(participant: participant)
         ),
+
+        // Add a card widget for each card in play.
         for (var activeCard in participant.activeCards)
-          CardWidget(
+          ChampsCardWidget(
             card: activeCard,
             commandWidget: Row(
             children: [
               SizedBox(width: 10),
+              // Cards in play belonging to the participant include the ability to remove themselves from the game.
               ElevatedButton(child:Text("Remove"), onPressed:() {
                 participant.activeCards.remove(activeCard);
                 appState.updateState();
@@ -89,7 +115,7 @@ class AddCardWidget extends StatefulWidget {
 }
 
 class _AddCardWidgetState extends State<AddCardWidget> {
-  CardInfo? cardInfo;
+  ChampsCardInfo? cardInfo;
 
   @override
   Widget build(BuildContext context) {
@@ -99,7 +125,7 @@ class _AddCardWidgetState extends State<AddCardWidget> {
       children: [
         SizedBox(width: 10),
         // Add a dropdown menu which selects from options consisting of the names of all available cards for this participant.
-        DropdownMenu<CardInfo>(
+        DropdownMenu<ChampsCardInfo>(
           dropdownMenuEntries: [
             for (var availableCard in widget.participant.availableCards)
               DropdownMenuEntry(value: availableCard, label: availableCard.name)
@@ -114,7 +140,7 @@ class _AddCardWidgetState extends State<AddCardWidget> {
           child: Text("Add Card"), 
           onPressed:() {
             if (cardInfo != null) {
-              widget.participant.activeCards.add(CardInstance.fromCardInfo(cardInfo!));
+              widget.participant.addActiveCard(cardInfo!);
               appState.updateState();
             }
           },
