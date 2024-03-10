@@ -13,7 +13,15 @@ class GameBoard extends StatelessWidget {
       children: [
           ParticipantWidget(participant: appState.villain),
           for (ParticipantInstance hero in appState.heroes)
-            ParticipantWidget(participant: hero),
+            Column(
+              children: [
+                const Divider(
+                  height: 20,
+                  thickness: 5,
+                ),
+                ParticipantWidget(participant: hero),
+              ],
+            ),
       ],
     );
   }
