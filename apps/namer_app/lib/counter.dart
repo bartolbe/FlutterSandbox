@@ -52,6 +52,10 @@ class CounterWidget extends StatelessWidget {
     counter.count++;
   }
 
+  void activate() {
+    counter.active = true;
+  }
+
   @override
   Widget build(BuildContext context) {
     var appState = context.watch<MyAppState>();
@@ -61,36 +65,51 @@ class CounterWidget extends StatelessWidget {
       color: theme.colorScheme.onSecondary,
     );
 
-    return Card(
-      color: counter.getColor(),
-      child: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: Row(
-          children: [
-            // TODO: Is there a better way to do multiple widgets in a single conditional?
-            if (counter.active) 
+    if (counter.active) {
+      // TODO: Some duplication in these cards.
+      return Card(
+        color: counter.getColor(),
+        child: Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Row(
+            children: [
               ElevatedButton(onPressed: () {
-                decrement();
-                appState.updateState();
-              },
-              child: Icon(Icons.arrow_downward)),
-            if (counter.active) 
+                  decrement();
+                  appState.updateState();
+                },
+                child: Icon(Icons.arrow_downward)),
               SizedBox(width: 10),
-            Text(
-              counter.active ? counter.count.toString() : 'X',
-              style: style,
-            ),
-            if (counter.active) 
+              Text(
+                counter.active ? counter.count.toString() : 'X',
+                style: style,
+              ),
               SizedBox(width: 10),
-            if (counter.active) 
               ElevatedButton(onPressed: () {
-                increment();
-                appState.updateState();
-              },
-              child: Icon(Icons.arrow_upward)),
-          ],
+                  increment();
+                  appState.updateState();
+                },
+                child: Icon(Icons.arrow_upward)),
+            ],
+          ),
         ),
-      ),
-    );
+      );
+    }
+    else {
+      return Card(
+        color: counter.getColor(),
+        child: Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Row(
+            children: [
+              ElevatedButton(onPressed: () {
+                activate();
+                appState.updateState();
+              },
+              child: Text("+"))
+            ],
+          ),
+        ),
+      );
+    }
   }
 }
