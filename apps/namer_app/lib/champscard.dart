@@ -16,8 +16,13 @@ enum CardType
   Class for tracking the information about a card before it's entered play.
 */
 class CardInfo {
-  final CardType type = CardType.Hero;
-  final String name = "I need a hero";
+  final CardType type;
+  final String name;
+
+  const CardInfo({
+    required this.type,
+    required this.name,
+  });
 
   /*
     Helper function for determining if the counter of type 'counterType' should be active when the card is first added to the game.
@@ -46,7 +51,7 @@ class CardInfo {
 */
 class CardInstance {
   final CardInfo info;
-  List<Counter> counters = List<Counter>.generate(CounterType.values.length, (index) => Counter(type:CounterType.values[index]));
+  List<CounterInstance> counters = List<CounterInstance>.generate(CounterType.values.length, (index) => CounterInstance(type:CounterType.values[index]));
 
   CardInstance.fromCardInfo(this.info) {
     for (var counterTypeIndex = 0; counterTypeIndex < CounterType.values.length; counterTypeIndex++) {
@@ -55,13 +60,12 @@ class CardInstance {
   }
 }
 
-class ChampsCard extends StatelessWidget {
-  const ChampsCard({
-    super.key,
-    required this.value,
+class CardWidget extends StatelessWidget {
+  const CardWidget({
+    required this.card,
   });
 
-  final int value;
+  final CardInstance card;
 
   @override
   Widget build(BuildContext context) {
@@ -70,15 +74,21 @@ class ChampsCard extends StatelessWidget {
       color: theme.colorScheme.onSecondary,
     );
 
-    return Card(
-      color: theme.colorScheme.primary,
-      child: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: Text(
-          value.toString(),
-          style: style,
+    return Column(
+      children: [
+        Card(
+          color: theme.colorScheme.primary,
+          child: Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Text(
+              card.info.name,
+              style: style,
+            ),
+          ),
         ),
-      ),
+        for (CounterInstance counter in card.counters)
+          CounterWidget(counter: counter),
+      ],
     );
   }
 }

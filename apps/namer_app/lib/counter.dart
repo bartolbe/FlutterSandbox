@@ -7,12 +7,12 @@ enum CounterType
   AllPurpose,
 }
 
-class Counter {
+class CounterInstance {
   final CounterType type;
   bool active = false;
   int count = 0;
 
-  Counter({
+  CounterInstance({
     required this.type,
   });
     
@@ -29,5 +29,32 @@ class Counter {
       default:
         throw UnimplementedError('$type is not a valid CounterType');
     }
+  }
+}
+
+class CounterWidget extends StatelessWidget {
+  const CounterWidget({
+    required this.counter,
+  });
+
+  final CounterInstance counter;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final style = theme.textTheme.displayMedium!.copyWith(
+      color: theme.colorScheme.onSecondary,
+    );
+
+    return Card(
+      color: counter.getColor(),
+      child: Padding(
+        padding: const EdgeInsets.all(20.0),
+        child: Text(
+          counter.active ? counter.count.toString() : 'X',
+          style: style,
+        ),
+      ),
+    );
   }
 }

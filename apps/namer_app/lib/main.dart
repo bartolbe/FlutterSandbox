@@ -30,41 +30,77 @@ class MyApp extends StatelessWidget {
 }
 
 class MyAppState extends ChangeNotifier {
-  var Villain = Participant(
+  var Villain = ParticipantInstance(
     type: ParticipantType.Villain,
     name: "Rhino",
     availableCards: [
-      CardInfo(),
-      CardInfo(),
-      CardInfo(),
+      CardInfo(
+        type: CardType.Minion,
+        name: "Hydra Mercenary",
+      ),
+      CardInfo(
+        type: CardType.Minion,
+        name: "Sandman",
+      ),
+      CardInfo(
+        type: CardType.Scheme,
+        name: "Breakin' and Takin'",
+      ),
     ],
   );
   var Heroes = [
-    Participant (
+    ParticipantInstance (
       type: ParticipantType.Hero,
       name: "Spider-Man",
       availableCards: [
-        CardInfo(),
-        CardInfo(),
-        CardInfo(),
+        CardInfo(
+        type: CardType.Ally,
+        name: "Black Cat",
+      ),
+        CardInfo(
+        type: CardType.Ally,
+        name: "Miles Morales",
+      ),
+        CardInfo(
+        type: CardType.Upgrade,
+        name: "Web-Shooter",
+      ),
       ],
     ),
-    Participant(
+    ParticipantInstance(
       type: ParticipantType.Hero,
       name: "Captain Marvel",
       availableCards: [
-        CardInfo(),
-        CardInfo(),
-        CardInfo(),
+        CardInfo(
+        type: CardType.Ally,
+        name: "Spectrum",
+      ),
+        CardInfo(
+        type: CardType.Ally,
+        name: "She-Hulk",
+      ),
+        CardInfo(
+        type: CardType.Upgrade,
+        name: "Cosmic Flight",
+      ),
       ],
     ),
-    Participant(
+    ParticipantInstance(
       type: ParticipantType.Hero,
       name: "Black Panther",
       availableCards: [
-        CardInfo(),
-        CardInfo(),
-        CardInfo(),
+        CardInfo(
+        type: CardType.Minion,
+        name: "Sandman",
+      ),
+        CardInfo(
+        type: CardType.Minion,
+        name: "Sandman",
+      ),
+        CardInfo(
+        type: CardType.Minion,
+        name: "Sandman",
+      ),
       ],
     ),
   ];
