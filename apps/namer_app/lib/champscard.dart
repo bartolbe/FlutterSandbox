@@ -98,16 +98,17 @@ class CardInstance {
 /*
   A class to represent either a player or the villain.
 */
-class ParticipantData {
+class Participant {
   final ParticipantType type;
   final String name;
 
-  List<CardInfo> availableCards = [];
+  List<CardInfo> availableCards;
   List<CardInstance> activeCards = [];
 
-  ParticipantData({
+  Participant({
     required this.type,
-    required this.name
+    required this.name,
+    required this.availableCards
   });
 
   /*

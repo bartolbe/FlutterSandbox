@@ -29,23 +29,44 @@ class MyApp extends StatelessWidget {
 }
 
 class MyAppState extends ChangeNotifier {
-  var current = 0;
-
-  void getNext() {
-    current++;
-    notifyListeners();
-  }
-
-  var favorites = <int>[];
-
-  void toggleFavorite() {
-    if (favorites.contains(current)) {
-      favorites.remove(current);
-    } else {
-      favorites.add(current);
-    }
-    notifyListeners();
-  }
+  var Villain = Participant(
+    type: ParticipantType.Villain,
+    name: "Rhino",
+    availableCards: [
+      CardInfo(),
+      CardInfo(),
+      CardInfo(),
+    ],
+  );
+  var Heroes = [
+    Participant (
+      type: ParticipantType.Hero,
+      name: "Spider-Man",
+      availableCards: [
+        CardInfo(),
+        CardInfo(),
+        CardInfo(),
+      ],
+    ),
+    Participant(
+      type: ParticipantType.Hero,
+      name: "Captain Marvel",
+      availableCards: [
+        CardInfo(),
+        CardInfo(),
+        CardInfo(),
+      ],
+    ),
+    Participant(
+      type: ParticipantType.Hero,
+      name: "Black Panther",
+      availableCards: [
+        CardInfo(),
+        CardInfo(),
+        CardInfo(),
+      ],
+    ),
+  ];
 }
 
 class MyHomePage extends StatefulWidget {
