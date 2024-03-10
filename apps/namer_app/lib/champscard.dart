@@ -37,7 +37,7 @@ class CardInfo {
       case CardType.minion:
         return counterType == CounterType.health;
       case CardType.scheme:
-        return counterType == CounterType.health;
+        return counterType == CounterType.threat;
       case CardType.upgrade:
         return counterType == CounterType.allPurpose; // If we're tracking an upgrade in this app, then it's probably got all purpose counters on it.
       default:
@@ -63,28 +63,38 @@ class CardInstance {
 class CardWidget extends StatelessWidget {
   const CardWidget({
     required this.card,
+    required this.commandWidget,
   });
 
   final CardInstance card;
+  final Widget? commandWidget;
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final style = theme.textTheme.displayMedium!.copyWith(
+    final baseStyle = card.info.type == CardType.villain || card.info.type == CardType.hero ? theme.textTheme.displayMedium : theme.textTheme.displaySmall;
+    final style = baseStyle!.copyWith(
       color: theme.colorScheme.onSecondary,
     );
 
     return Column(
       children: [
-        Card(
-          color: theme.colorScheme.primary,
-          child: Padding(
-            padding: const EdgeInsets.all(20.0),
-            child: Text(
-              card.info.name,
-              style: style,
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Card(
+              color: card.info.type == CardType.hero || card.info.type == CardType.ally || card.info.type == CardType.upgrade ? Colors.blue : Colors.orange,
+              child: Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Text(
+                  card.info.name,
+                  style: style,
+                ),
+              ),
             ),
-          ),
+            if (commandWidget != null)
+              commandWidget!,
+          ],
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,

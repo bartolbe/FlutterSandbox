@@ -50,6 +50,7 @@ class CounterWidget extends StatelessWidget {
   void increment() {
     counter.count++;
   }
+
   @override
   Widget build(BuildContext context) {
     var appState = context.watch<MyAppState>();
