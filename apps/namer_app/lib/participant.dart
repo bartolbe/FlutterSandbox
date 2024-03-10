@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 
 enum ParticipantType
 {
-  Hero,
-  Villain,
+  hero,
+  villain,
 }
 
 /*
@@ -20,7 +20,7 @@ class ParticipantInstance {
   List<CardInstance> activeCards = [];
 
   ParticipantInstance({ required this.type, required this.name, required this.availableCards  }) 
-    : identity = CardInstance.fromCardInfo(CardInfo(type: type == ParticipantType.Hero ? CardType.Hero : CardType.Villain, name: name));
+    : identity = CardInstance.fromCardInfo(CardInfo(type: type == ParticipantType.hero ? CardType.hero : CardType.villain, name: name));
 
   /*
     Add a card to the available card pool. Called during setup.

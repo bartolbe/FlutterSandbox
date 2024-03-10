@@ -13,8 +13,8 @@ class GameSelection extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text(appState.Villain.name),
-          for (ParticipantInstance hero in appState.Heroes)
+          Text(appState.villain.name),
+          for (ParticipantInstance hero in appState.heroes)
             Text(hero.name),
         ],
       ),

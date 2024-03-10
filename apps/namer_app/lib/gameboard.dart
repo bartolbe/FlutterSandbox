@@ -11,8 +11,8 @@ class GameBoard extends StatelessWidget {
 
     return ListView(
       children: [
-          ParticipantWidget(participant: appState.Villain),
-          for (ParticipantInstance hero in appState.Heroes)
+          ParticipantWidget(participant: appState.villain),
+          for (ParticipantInstance hero in appState.heroes)
             ParticipantWidget(participant: hero),
       ],
     );

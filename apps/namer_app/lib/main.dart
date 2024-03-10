@@ -30,80 +30,84 @@ class MyApp extends StatelessWidget {
 }
 
 class MyAppState extends ChangeNotifier {
-  var Villain = ParticipantInstance(
-    type: ParticipantType.Villain,
+  var villain = ParticipantInstance(
+    type: ParticipantType.villain,
     name: "Rhino",
     availableCards: [
       CardInfo(
-        type: CardType.Minion,
+        type: CardType.minion,
         name: "Hydra Mercenary",
       ),
       CardInfo(
-        type: CardType.Minion,
+        type: CardType.minion,
         name: "Sandman",
       ),
       CardInfo(
-        type: CardType.Scheme,
+        type: CardType.scheme,
         name: "Breakin' and Takin'",
       ),
     ],
   );
-  var Heroes = [
+  var heroes = [
     ParticipantInstance (
-      type: ParticipantType.Hero,
+      type: ParticipantType.hero,
       name: "Spider-Man",
       availableCards: [
         CardInfo(
-        type: CardType.Ally,
+        type: CardType.ally,
         name: "Black Cat",
       ),
         CardInfo(
-        type: CardType.Ally,
+        type: CardType.ally,
         name: "Miles Morales",
       ),
         CardInfo(
-        type: CardType.Upgrade,
+        type: CardType.upgrade,
         name: "Web-Shooter",
       ),
       ],
     ),
     ParticipantInstance(
-      type: ParticipantType.Hero,
+      type: ParticipantType.hero,
       name: "Captain Marvel",
       availableCards: [
         CardInfo(
-        type: CardType.Ally,
+        type: CardType.ally,
         name: "Spectrum",
       ),
         CardInfo(
-        type: CardType.Ally,
+        type: CardType.ally,
         name: "She-Hulk",
       ),
         CardInfo(
-        type: CardType.Upgrade,
+        type: CardType.upgrade,
         name: "Cosmic Flight",
       ),
       ],
     ),
     ParticipantInstance(
-      type: ParticipantType.Hero,
+      type: ParticipantType.hero,
       name: "Black Panther",
       availableCards: [
         CardInfo(
-        type: CardType.Minion,
+        type: CardType.minion,
         name: "Sandman",
       ),
         CardInfo(
-        type: CardType.Minion,
+        type: CardType.minion,
         name: "Sandman",
       ),
         CardInfo(
-        type: CardType.Minion,
+        type: CardType.minion,
         name: "Sandman",
       ),
       ],
     ),
   ];
+
+  void updateState() {
+    notifyListeners();
+  }
 }
 
 class MyHomePage extends StatefulWidget {
@@ -121,10 +125,8 @@ class _MyHomePageState extends State<MyHomePage> {
     switch (selectedIndex) {
       case 0:
         page = GameSelection();
-        break;
       case 1:
         page = GameBoard();
-        break;
       default:
         throw UnimplementedError('no widget for $selectedIndex');
     }

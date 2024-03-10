@@ -4,12 +4,12 @@ import 'package:flutter/material.dart';
 
 enum CardType
 {
-  Hero,
-  Ally,
-  Upgrade,
-  Villain,
-  Minion,
-  Scheme,
+  hero,
+  ally,
+  upgrade,
+  villain,
+  minion,
+  scheme,
 }
 
 /*
@@ -31,15 +31,15 @@ class CardInfo {
   {
     switch(type)
     {
-      case CardType.Hero:
-      case CardType.Ally:
-      case CardType.Villain:
-      case CardType.Minion:
-        return counterType == CounterType.Health;
-      case CardType.Scheme:
-        return counterType == CounterType.Health;
-      case CardType.Upgrade:
-        return counterType == CounterType.AllPurpose; // If we're tracking an upgrade in this app, then it's probably got all purpose counters on it.
+      case CardType.hero:
+      case CardType.ally:
+      case CardType.villain:
+      case CardType.minion:
+        return counterType == CounterType.health;
+      case CardType.scheme:
+        return counterType == CounterType.health;
+      case CardType.upgrade:
+        return counterType == CounterType.allPurpose; // If we're tracking an upgrade in this app, then it's probably got all purpose counters on it.
       default:
         throw UnimplementedError('$type is not a valid CardType');
     }
@@ -86,8 +86,13 @@ class CardWidget extends StatelessWidget {
             ),
           ),
         ),
-        for (CounterInstance counter in card.counters)
-          CounterWidget(counter: counter),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            for (CounterInstance counter in card.counters)
+              CounterWidget(counter: counter),
+          ],
+        ),
       ],
     );
   }
