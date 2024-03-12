@@ -144,13 +144,11 @@ class ChampsCardWidget extends StatelessWidget {
                       card.info.name,
                       style: style,
                     ),
-                    Row(
+                    Wrap(
+                      spacing: 5,
                       children: [
-                        StatusWidget(),
-                        SizedBox(width: 5),
-                        StatusWidget(),
-                        SizedBox(width: 5),
-                        StatusWidget(),
+                        for (StatusInstance status in card.statuses)
+                          StatusWidget(status: status),
                       ],
                     ),
                   ],
