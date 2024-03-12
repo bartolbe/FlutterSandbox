@@ -80,6 +80,22 @@ class ChampsCardInfo {
         throw UnimplementedError('$type is not a valid CardType');
     }
   }
+
+  bool isCharacter()
+  {
+    switch(type) {
+      case ChampsCardType.hero:
+      case ChampsCardType.villain:
+      case ChampsCardType.ally:
+      case ChampsCardType.minion:
+        return true;
+      case ChampsCardType.upgrade:
+      case ChampsCardType.scheme:
+        return false;
+      default:
+        throw UnimplementedError('$type is not a valid CardType');
+    }
+  }
 }
 
 /*
@@ -144,13 +160,14 @@ class ChampsCardWidget extends StatelessWidget {
                       card.info.name,
                       style: style,
                     ),
-                    Wrap(
-                      spacing: 5,
-                      children: [
-                        for (StatusInstance status in card.statuses)
-                          StatusWidget(status: status),
-                      ],
-                    ),
+                    if (card.info.isCharacter())
+                      Wrap(
+                        spacing: 5,
+                        children: [
+                          for (StatusInstance status in card.statuses)
+                            StatusWidget(status: status),
+                        ],
+                      ),
                   ],
                 ),
               ),
