@@ -1,34 +1,23 @@
 import 'package:champions_tracker/main.dart';
-import 'package:champions_tracker/participant.dart';
 import 'package:champions_tracker/champscard.dart';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-/*
-  The (mostly unimplemented) widget class for setting up the configuration that the game will run.
-*/
-class GameSelection extends StatefulWidget {
-  @override
-  State<GameSelection> createState() => _GameSelectionState();
-}
-
-class _GameSelectionState extends State<GameSelection> {
-  Future<ChampsCardInfo>? cardInfo;
-
+class GameSelection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var appState = context.watch<MyAppState>();
 
-    print("Joey build$cardInfo");
+    print("Joey build${appState.gameSetup.cardInfo}");
 
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          if (cardInfo != null)
+          if (appState.gameSetup.cardInfo != null)
             FutureBuilder<ChampsCardInfo>(
-              future: cardInfo!,
+              future: appState.gameSetup.cardInfo!,
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
                   return Text("${snapshot.data!.name} (${snapshot.data!.type})");
@@ -37,15 +26,14 @@ class _GameSelectionState extends State<GameSelection> {
                 }
 
                 // By default, show a loading spinner.
-                return const CircularProgressIndicator();
+                //return const CircularProgressIndicator();
+                return Text("Loading");
               },
             ),
 
           ElevatedButton(onPressed: () {
-              print("Joey");
-              print(cardInfo);
-              cardInfo = fetchChampsCard("21096");
-              print(cardInfo);
+              appState.gameSetup.cardInfo = fetchChampsCard("21096");
+              appState.updateState();
             },
             child: Icon(Icons.router)),
         ],

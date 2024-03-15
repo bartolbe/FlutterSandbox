@@ -15,10 +15,10 @@ class GameBoard extends StatelessWidget {
     return ListView(
       children: [
           // Display the villain participant.
-          ParticipantWidget(participant: appState.villain),
+          ParticipantWidget(participant: appState.activeGame.villain),
 
           // Display each of the hero participants with a divider.
-          for (ParticipantInstance hero in appState.heroes)
+          for (ParticipantInstance hero in appState.activeGame.heroes)
             Column(
               children: [
                 const Divider(

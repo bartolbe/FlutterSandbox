@@ -107,9 +107,18 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class MyAppState extends ChangeNotifier {
+class GameSetup {
+  Future<ChampsCardInfo>? cardInfo;
+}
+
+class ActiveGame {
   var villain = placeholderVillain;
   var heroes = placeholderHeroes;
+}
+
+class MyAppState extends ChangeNotifier {
+  GameSetup gameSetup = GameSetup();
+  ActiveGame activeGame = ActiveGame();
 
   void updateState() {
     notifyListeners();
