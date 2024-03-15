@@ -2,6 +2,8 @@ import 'package:champions_tracker/counter.dart';
 import 'package:champions_tracker/participant.dart';
 import 'package:champions_tracker/status.dart';
 
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 
 enum ChampsCardType
@@ -12,6 +14,41 @@ enum ChampsCardType
   villain,
   minion,
   scheme,
+  // TODO Add attachment and player side scheme (and to fromCDBTypeCode)
+}
+
+Future<ChampsCardInfo> fetchChampsCard(String id) async {
+  final response = await http.get(Uri.parse('https://marvelcdb.com/api/public/card/$id'));
+
+  if (response.statusCode == 200) {
+    return ChampsCardInfo.fromJson(jsonDecode(response.body) as Map<String, dynamic>);
+  } else {
+    throw Exception('Failed to load album');
+  }
+}
+
+ChampsCardType fromCDBTypeCode(String typeCode) {
+  if (typeCode == "villain") {
+    return ChampsCardType.villain;
+  }
+  if (typeCode == "hero") {
+    return ChampsCardType.hero;
+  }
+  if (typeCode == "ally") {
+    return ChampsCardType.ally;
+  }
+  if (typeCode == "upgrade") {
+    return ChampsCardType.upgrade;
+  }
+  if (typeCode == "minion") {
+    return ChampsCardType.minion;
+  }
+  if (typeCode == "sidescheme") {
+    return ChampsCardType.scheme;
+  }
+
+  // TODO: Better error handling
+  return ChampsCardType.hero;
 }
 
 /*
@@ -25,6 +62,20 @@ class ChampsCardInfo {
     required this.type,
     required this.name,
   });
+
+  factory ChampsCardInfo.fromJson(Map<String, dynamic> json) {
+    return switch (json) {
+      {
+        'type_code': String typeCode,
+        'name': String name,
+      } =>
+        ChampsCardInfo(
+          type: fromCDBTypeCode(typeCode),
+          name: name,
+        ),
+      _ => throw const FormatException('Failed to load champs card.'),
+    };
+  }
 
   /*
     Helper function for determining if the counter of type 'counterType' should be active when the card is first added to the game.
